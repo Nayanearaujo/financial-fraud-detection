@@ -1,0 +1,2 @@
+scenario,strategy,unused_capacity,alerts,reviewed_by_humans,true_positive,false_positive,false_negative,true_negative,accuracy,precision,recall,positive_decisions
+all,model_only,0,4457,0,711,3746,0,0,0.15952434372896568,0.15952434372896568,1.0,4457

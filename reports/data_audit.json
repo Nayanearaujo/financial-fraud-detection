@@ -1,0 +1,90 @@
+{
+  "base": {
+    "rows": 917174,
+    "columns": 32,
+    "duplicate_rows": 0,
+    "missing_cells": 2,
+    "incomplete_rows": 1,
+    "fraud_cases": 11029,
+    "fraud_rate": 0.012024981083196863,
+    "months": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ]
+  },
+  "base_by_month": [
+    {
+      "month": 0,
+      "applications": 132440,
+      "fraud_cases": 1500,
+      "fraud_rate": 0.011325883418906675
+    },
+    {
+      "month": 1,
+      "applications": 127620,
+      "fraud_cases": 1198,
+      "fraud_rate": 0.009387243378780755
+    },
+    {
+      "month": 2,
+      "applications": 136979,
+      "fraud_cases": 1198,
+      "fraud_rate": 0.008745866154666044
+    },
+    {
+      "month": 3,
+      "applications": 150936,
+      "fraud_cases": 1392,
+      "fraud_rate": 0.009222451900143107
+    },
+    {
+      "month": 4,
+      "applications": 44864,
+      "fraud_cases": 1452,
+      "fraud_rate": 0.03236447931526391
+    },
+    {
+      "month": 5,
+      "applications": 119323,
+      "fraud_cases": 1411,
+      "fraud_rate": 0.01182504630289215
+    },
+    {
+      "month": 6,
+      "applications": 108168,
+      "fraud_cases": 1450,
+      "fraud_rate": 0.013405073589231566
+    },
+    {
+      "month": 7,
+      "applications": 96843,
+      "fraud_cases": 1428,
+      "fraud_rate": 0.014745515938167962
+    }
+  ],
+  "alerts": {
+    "rows": 30622,
+    "fraud_cases": 3714,
+    "fraud_rate": 0.121285350401672,
+    "share_of_supplied_base": 0.03338733980684145,
+    "share_of_supplied_base_fraud_captured": 0.336748571946686
+  },
+  "author_scored_applications": {
+    "rows": 602961,
+    "fraud_cases": 7133,
+    "fraud_rate": 0.011829952517658688
+  },
+  "synthetic_experts": {
+    "count": 50,
+    "mean_accuracy_on_alerts": 0.70729932728104,
+    "minimum_accuracy_on_alerts": 0.33090588465808896,
+    "maximum_accuracy_on_alerts": 0.9613349879171837,
+    "best_expert": "standard#38"
+  }
+}

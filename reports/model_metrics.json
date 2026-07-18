@@ -1,0 +1,168 @@
+{
+  "split": {
+    "train_rows": 547975,
+    "validation_rows": 227491,
+    "test_rows": 96843,
+    "excluded_month": 4
+  },
+  "models": {
+    "logistic_regression": {
+      "validation_threshold_f2": 0.7437592975636693,
+      "validation": {
+        "average_precision": 0.11636403707278857,
+        "roc_auc": 0.8416239619050897,
+        "precision": 0.1065184340554922,
+        "recall": 0.3918210415938483,
+        "balanced_accuracy": 0.6749805470623383,
+        "alert_rate": 0.04626117077159096
+      },
+      "validation_capacity": [
+        {
+          "review_share": 0.01,
+          "review_capacity": 2274,
+          "fraud_captured": 453,
+          "precision_at_capacity": 0.19920844327176782,
+          "recall_at_capacity": 0.15833624606780847
+        },
+        {
+          "review_share": 0.03,
+          "review_capacity": 6824,
+          "fraud_captured": 890,
+          "precision_at_capacity": 0.13042203985932005,
+          "recall_at_capacity": 0.31108004194337646
+        },
+        {
+          "review_share": 0.05,
+          "review_capacity": 11374,
+          "fraud_captured": 1160,
+          "precision_at_capacity": 0.10198698786706524,
+          "recall_at_capacity": 0.40545263893743444
+        },
+        {
+          "review_share": 0.1,
+          "review_capacity": 22749,
+          "fraud_captured": 1591,
+          "precision_at_capacity": 0.06993714009407007,
+          "recall_at_capacity": 0.5560992659909123
+        }
+      ],
+      "test": {
+        "average_precision": 0.13286387256832025,
+        "roc_auc": 0.8498213905905074,
+        "precision": 0.1575984990619137,
+        "recall": 0.29411764705882354,
+        "balanced_accuracy": 0.6352944258980121,
+        "alert_rate": 0.027518767489648193
+      },
+      "test_capacity": [
+        {
+          "review_share": 0.01,
+          "review_capacity": 968,
+          "fraud_captured": 234,
+          "precision_at_capacity": 0.24173553719008264,
+          "recall_at_capacity": 0.1638655462184874
+        },
+        {
+          "review_share": 0.03,
+          "review_capacity": 2905,
+          "fraud_captured": 438,
+          "precision_at_capacity": 0.15077452667814115,
+          "recall_at_capacity": 0.3067226890756303
+        },
+        {
+          "review_share": 0.05,
+          "review_capacity": 4842,
+          "fraud_captured": 561,
+          "precision_at_capacity": 0.11586121437422553,
+          "recall_at_capacity": 0.39285714285714285
+        },
+        {
+          "review_share": 0.1,
+          "review_capacity": 9684,
+          "fraud_captured": 815,
+          "precision_at_capacity": 0.08415943824865758,
+          "recall_at_capacity": 0.5707282913165266
+        }
+      ]
+    },
+    "hist_gradient_boosting": {
+      "validation_threshold_f2": 0.7878404440897413,
+      "validation": {
+        "average_precision": 0.1473687994611531,
+        "roc_auc": 0.8644737955271758,
+        "precision": 0.12711327134404057,
+        "recall": 0.42048234882908075,
+        "balanced_accuracy": 0.6918531585662565,
+        "alert_rate": 0.04160164577939347
+      },
+      "validation_capacity": [
+        {
+          "review_share": 0.01,
+          "review_capacity": 2274,
+          "fraud_captured": 558,
+          "precision_at_capacity": 0.24538258575197888,
+          "recall_at_capacity": 0.1950367004543866
+        },
+        {
+          "review_share": 0.03,
+          "review_capacity": 6824,
+          "fraud_captured": 1017,
+          "precision_at_capacity": 0.14903282532239157,
+          "recall_at_capacity": 0.35547011534428524
+        },
+        {
+          "review_share": 0.05,
+          "review_capacity": 11374,
+          "fraud_captured": 1292,
+          "precision_at_capacity": 0.11359240372780025,
+          "recall_at_capacity": 0.4515903530234184
+        },
+        {
+          "review_share": 0.1,
+          "review_capacity": 22749,
+          "fraud_captured": 1747,
+          "precision_at_capacity": 0.07679458437733527,
+          "recall_at_capacity": 0.6106256553652569
+        }
+      ],
+      "test": {
+        "average_precision": 0.17891647764478685,
+        "roc_auc": 0.87389282495999,
+        "precision": 0.1743573861876742,
+        "recall": 0.3942577030812325,
+        "balanced_accuracy": 0.6831583018366912,
+        "alert_rate": 0.033342626725731336
+      },
+      "test_capacity": [
+        {
+          "review_share": 0.01,
+          "review_capacity": 968,
+          "fraud_captured": 285,
+          "precision_at_capacity": 0.2944214876033058,
+          "recall_at_capacity": 0.19957983193277312
+        },
+        {
+          "review_share": 0.03,
+          "review_capacity": 2905,
+          "fraud_captured": 533,
+          "precision_at_capacity": 0.18347676419965578,
+          "recall_at_capacity": 0.37324929971988796
+        },
+        {
+          "review_share": 0.05,
+          "review_capacity": 4842,
+          "fraud_captured": 680,
+          "precision_at_capacity": 0.14043783560512185,
+          "recall_at_capacity": 0.47619047619047616
+        },
+        {
+          "review_share": 0.1,
+          "review_capacity": 9684,
+          "fraud_captured": 891,
+          "precision_at_capacity": 0.09200743494423792,
+          "recall_at_capacity": 0.6239495798319328
+        }
+      ]
+    }
+  }
+}

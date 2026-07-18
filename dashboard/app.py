@@ -488,14 +488,23 @@ with quality_tab:
         name="Applications",
         marker_color=TEAL,
         opacity=0.82,
+        text=[f"{value:,}" for value in monthly["applications"]],
+        textposition="outside",
+        textfont={"color": DARK, "size": 11},
+        cliponaxis=False,
+        hovertemplate="Source period %{x}<br>Applications: %{y:,}<extra></extra>",
     )
     figure.add_scatter(
         x=monthly["month"],
         y=monthly["fraud_rate"] * 100,
         name="Fraud rate",
-        mode="lines+markers",
+        mode="lines+markers+text",
         line={"color": CORAL, "width": 3},
         marker={"size": 8},
+        text=[f"{rate * 100:.2f}%" for rate in monthly["fraud_rate"]],
+        textposition="top center",
+        textfont={"color": CORAL, "size": 11},
+        hovertemplate="Source period %{x}<br>Fraud rate: %{y:.2f}%<extra></extra>",
         yaxis="y2",
     )
     figure.add_vrect(
@@ -504,14 +513,19 @@ with quality_tab:
         fillcolor=CORAL,
         opacity=0.12,
         line_width=0,
-        annotation_text="Incomplete source month",
-        annotation_position="top left",
+        annotation_text="P4 — incomplete",
+        annotation_position="top right",
     )
     figure.update_layout(
-        title="Application volume and observed fraud rate",
-        xaxis_title="Source month",
-        yaxis={"title": "Applications"},
-        yaxis2={"title": "Fraud rate (%)", "overlaying": "y", "side": "right", "showgrid": False},
+        title="Application volume and observed fraud rate by source period",
+        xaxis={
+            "title": "Source period (dataset index)",
+            "tickmode": "array",
+            "tickvals": monthly["month"].tolist(),
+            "ticktext": [f"P{month}" for month in monthly["month"]],
+        },
+        yaxis={"title": "Applications", "range": [0, monthly["applications"].max() * 1.18]},
+        yaxis2={"title": "Fraud rate (%)", "overlaying": "y", "side": "right", "showgrid": False, "range": [0, monthly["fraud_rate"].max() * 100 * 1.2]},
     )
     style_figure(figure, height=520)
     st.plotly_chart(figure, width="stretch")

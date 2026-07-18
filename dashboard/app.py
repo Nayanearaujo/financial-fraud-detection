@@ -19,7 +19,17 @@ st.markdown(
     f"""
     <style>
     .stApp {{background: #F7FAF9; color: {DARK};}}
-    div[data-testid="stMetric"] {{background: white; border: 1px solid #DDE7E5; border-radius: 14px; padding: 16px;}}
+    .block-container {{max-width: 1500px; padding-top: 1.8rem; padding-bottom: 3rem;}}
+    h1 {{font-size: clamp(2.5rem, 4vw, 3.75rem) !important; line-height: 1.05 !important; margin: 0 0 .45rem !important;}}
+    div[data-testid="stCaptionContainer"] {{margin: 0 0 .8rem;}}
+    div[data-testid="stCaptionContainer"] p {{color: #60767B !important; font-size: 1rem;}}
+    div[data-testid="stTabs"] {{margin-top: .15rem;}}
+    div[data-baseweb="tab-list"] {{gap: 1.35rem;}}
+    button[data-baseweb="tab"] {{padding: .75rem 0 .65rem;}}
+    div[data-testid="stMetric"] {{background: white; border: 1px solid #D9E5E3; border-radius: 14px; padding: 1rem 1.15rem; min-height: 112px; box-shadow: 0 8px 24px rgba(14, 98, 104, .05);}}
+    div[data-testid="stMetricLabel"] p {{color: #60767B !important; font-size: .95rem;}}
+    div[data-testid="stMetricValue"] {{color: {DARK} !important;}}
+    div[data-testid="stPlotlyChart"] {{background: white; border: 1px solid #E1EAE8; border-radius: 16px; padding: .4rem;}}
     </style>
     """,
     unsafe_allow_html=True,
@@ -29,6 +39,23 @@ monthly = pd.read_csv(DATA / "monthly_summary.csv")
 capacity = pd.read_csv(DATA / "capacity_summary.csv")
 analysts = pd.read_csv(DATA / "analyst_summary.csv")
 review_strategies = pd.read_csv(DATA / "review_strategy_summary.csv")
+
+
+def style_figure(figure, height: int = 520):
+    """Apply the dashboard's light visual system to every Plotly figure."""
+    figure.update_layout(
+        template="plotly_white",
+        height=height,
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="#FFFFFF",
+        font={"color": DARK, "size": 14},
+        title={"font": {"color": DARK, "size": 21}, "x": 0.02, "xanchor": "left"},
+        margin={"l": 55, "r": 30, "t": 75, "b": 55},
+        legend={"title": None},
+    )
+    figure.update_xaxes(gridcolor="#E8EFED", linecolor="#C9D7D4")
+    figure.update_yaxes(gridcolor="#E8EFED", linecolor="#C9D7D4")
+    return figure
 
 st.title("Financial Fraud Detection")
 st.caption("Application risk ranking and capacity-aware alert review using synthetic research data")
@@ -55,6 +82,7 @@ with overview:
         color_discrete_sequence=[CORAL],
     )
     figure.update_traces(line_width=3, marker_size=9)
+    style_figure(figure)
     st.plotly_chart(figure, width="stretch")
     st.info("Month 4 is excluded from primary comparisons because the supplied CSV terminates during that month.")
 
@@ -80,6 +108,7 @@ with capacity_tab:
         color_discrete_map={"logistic_regression": "#728489", "hist_gradient_boosting": CORAL},
     )
     chart.update_traces(line_width=3, marker_size=9)
+    style_figure(chart)
     st.plotly_chart(chart, width="stretch")
 
     capacity_choice = st.select_slider("Review capacity", options=[1, 3, 5, 10], value=3)
@@ -103,6 +132,7 @@ with analysts_tab:
         labels={"recall": "Recall", "precision": "Precision", "positive_rate": "Positive decision rate"},
         color_discrete_sequence=[TEAL],
     )
+    style_figure(figure)
     st.plotly_chart(figure, width="stretch")
     st.caption("All analyst decisions are synthetic; the chart does not represent employee performance.")
 
@@ -132,6 +162,7 @@ with assignment_tab:
         labels={"policy": "Assignment policy", "value_percent": "Mean result (%)", "metric": "Metric"},
         color_discrete_map={"Accuracy": TEAL, "Precision": CORAL, "Recall": "#728489"},
     )
+    style_figure(chart)
     st.plotly_chart(chart, width="stretch")
 
     random_row = comparison.set_index("strategy").loc["random_capacity"]
@@ -155,6 +186,7 @@ with quality_tab:
         labels={"month": "Source month", "applications": "Applications", "color": "Source status"},
         color_discrete_map={"Complete": TEAL, "Incomplete": CORAL},
     )
+    style_figure(chart)
     st.plotly_chart(chart, width="stretch")
     st.markdown(
         "The archive contains one truncated final row and a materially incomplete month 4. "

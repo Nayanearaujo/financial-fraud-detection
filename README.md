@@ -8,6 +8,8 @@ The work uses the Financial Fraud Alert Review Dataset (FiFAR), a synthetic rese
 
 > This is an analytical portfolio project based on synthetic data. It is not a production fraud system and must not be used for real lending or account-opening decisions.
 
+**Interactive dashboard:** [Explore the final results and review scenarios](https://financial-fraud-alert-review.streamlit.app/)
+
 ## Why this project matters
 
 Fraud models are often evaluated as if every flagged case can be investigated. In practice, an alert has value only when it can enter a manageable review process. The central question is therefore:

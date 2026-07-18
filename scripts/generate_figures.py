@@ -38,7 +38,7 @@ def monthly_figure(audit: dict, output: Path) -> None:
     monthly = pd.DataFrame(audit["base_by_month"])
     fig, left = plt.subplots(figsize=(11, 6))
     right = left.twinx()
-    left.bar(monthly["month"], monthly["applications"], color=TEAL, alpha=0.82, label="Applications")
+    bars = left.bar(monthly["month"], monthly["applications"], color=TEAL, alpha=0.82, label="Applications")
     right.plot(
         monthly["month"],
         monthly["fraud_rate"] * 100,
@@ -48,11 +48,38 @@ def monthly_figure(audit: dict, output: Path) -> None:
         label="Fraud rate",
     )
     left.axvspan(3.65, 4.35, color=CORAL, alpha=0.12)
-    left.text(4, monthly["applications"].max() * 0.92, "Incomplete source month", ha="center", color=DARK)
-    left.set(title="Application volume and observed fraud rate by source month", xlabel="Source month", ylabel="Applications")
+    left.text(
+        4.28,
+        monthly["applications"].max() * 0.72,
+        "P4 — incomplete",
+        ha="center",
+        va="center",
+        rotation=90,
+        color=DARK,
+        fontsize=9,
+    )
+    left.bar_label(bars, labels=[f"{value / 1000:.0f}k" for value in monthly["applications"]], padding=3, fontsize=9)
+    for month, rate in zip(monthly["month"], monthly["fraud_rate"] * 100):
+        right.annotate(
+            f"{rate:.2f}%",
+            (month, rate),
+            xytext=(0, 9),
+            textcoords="offset points",
+            ha="center",
+            color=CORAL,
+            fontsize=9,
+            fontweight="bold",
+        )
+    left.set(
+        title="Application volume and observed fraud rate by source period",
+        xlabel="Source period (dataset index)",
+        ylabel="Applications",
+    )
+    left.set_xticks(monthly["month"], [f"P{month}" for month in monthly["month"]])
     right.set_ylabel("Fraud rate (%)")
     left.grid(axis="x", visible=False)
     right.grid(visible=False)
+    left.margins(y=0.14)
     fig.tight_layout()
     fig.savefig(output, dpi=180, bbox_inches="tight")
     plt.close(fig)

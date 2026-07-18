@@ -46,7 +46,7 @@ def style_figure(figure, height: int = 520):
     figure.update_layout(
         template="plotly_white",
         height=height,
-        paper_bgcolor="rgba(0,0,0,0)",
+        paper_bgcolor="#FFFFFF",
         plot_bgcolor="#FFFFFF",
         font={"color": DARK, "size": 14},
         title={"font": {"color": DARK, "size": 21}, "x": 0.02, "xanchor": "left"},
@@ -57,8 +57,10 @@ def style_figure(figure, height: int = 520):
     figure.update_yaxes(gridcolor="#E8EFED", linecolor="#C9D7D4")
     return figure
 
-st.title("Financial Fraud Detection")
-st.caption("Application risk ranking and capacity-aware alert review using synthetic research data")
+st.title("Financial Fraud Detection & Alert Review")
+st.caption(
+    "Bank-account application risk ranking and capacity-aware alert review using synthetic research data."
+)
 
 overview, capacity_tab, assignment_tab, analysts_tab, quality_tab = st.tabs(
     ["Overview", "Review capacity", "Alert assignment", "Analyst variation", "Data quality"]
@@ -66,23 +68,43 @@ overview, capacity_tab, assignment_tab, analysts_tab, quality_tab = st.tabs(
 
 with overview:
     left, middle, right, fourth = st.columns(4)
-    left.metric("Supplied applications", "917,174")
-    middle.metric("Observed fraud", "1.20%")
-    right.metric("Selected alerts", "30,622")
-    fourth.metric("Fraud within alerts", "12.13%")
+    left.metric("Applications supplied", "917,174")
+    middle.metric("Fraud prevalence", "1.20%")
+    right.metric("Alerts selected", "30,622")
+    fourth.metric("Fraud prevalence among alerts", "12.13%")
 
-    usable_months = monthly.loc[~monthly["month"].eq(4)].copy()
+    monthly_chart = monthly.copy()
+    monthly_chart["fraud_rate_percent"] = monthly_chart["fraud_rate"] * 100
+    monthly_chart.loc[monthly_chart["month"].eq(4), "fraud_rate_percent"] = float("nan")
     figure = px.line(
-        usable_months,
+        monthly_chart,
         x="month",
-        y=usable_months["fraud_rate"] * 100,
+        y="fraud_rate_percent",
         markers=True,
-        title="Observed fraud rate across complete source months",
-        labels={"x": "Source month", "y": "Fraud rate (%)"},
+        title="Observed fraud rate by complete source month",
+        labels={"month": "Source month", "fraud_rate_percent": "Fraud rate (%)"},
         color_discrete_sequence=[CORAL],
     )
-    figure.update_traces(line_width=3, marker_size=9)
+    figure.update_traces(line_width=3, marker_size=9, connectgaps=False)
+    figure.add_vrect(
+        x0=3.65,
+        x1=4.35,
+        fillcolor=CORAL,
+        opacity=0.12,
+        line_width=0,
+        annotation_text="Incomplete month excluded",
+        annotation_position="top left",
+        annotation_font={"color": DARK, "size": 12},
+    )
     style_figure(figure)
+    y_ticks = [0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5]
+    figure.update_xaxes(tickmode="array", tickvals=list(range(8)), ticktext=[str(value) for value in range(8)])
+    figure.update_yaxes(
+        range=[0.72, 1.58],
+        tickmode="array",
+        tickvals=y_ticks,
+        ticktext=[f"{value:.1f}" for value in y_ticks],
+    )
     st.plotly_chart(figure, width="stretch")
     st.info("Month 4 is excluded from primary comparisons because the supplied CSV terminates during that month.")
 

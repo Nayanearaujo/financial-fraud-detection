@@ -40,6 +40,18 @@ def main() -> None:
                 )
     pd.DataFrame(capacity_rows).to_csv(args.output / "capacity_summary.csv", index=False)
 
+    model_rows = []
+    for model_name, result in metrics["models"].items():
+        for split_name in ("validation", "test"):
+            model_rows.append(
+                {
+                    "model": model_name,
+                    "split": split_name,
+                    **result[split_name],
+                }
+            )
+    pd.DataFrame(model_rows).to_csv(args.output / "model_summary.csv", index=False)
+
     alerts = pd.read_parquet(args.source / "alert_data" / "processed_data" / "alerts.parquet")
     predictions = pd.read_parquet(args.source / "synthetic_experts" / "expert_predictions.parquet")
     predictions = align_case_index(alerts, predictions)

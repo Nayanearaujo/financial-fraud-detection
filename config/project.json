@@ -1,0 +1,30 @@
+{
+  "target": "fraud_bool",
+  "time_column": "month",
+  "model_score_column": "model_score",
+  "categorical_features": [
+    "payment_type",
+    "employment_status",
+    "housing_status",
+    "source",
+    "device_os"
+  ],
+  "audit_only_features": [
+    "income",
+    "customer_age",
+    "employment_status",
+    "housing_status"
+  ],
+  "known_sentinel_columns": [
+    "prev_address_months_count",
+    "current_address_months_count",
+    "bank_months_count",
+    "device_fraud_count"
+  ],
+  "train_months": [0, 1, 2, 3],
+  "excluded_months": [4],
+  "validation_months": [5, 6],
+  "test_months": [7],
+  "alert_threshold": 0.05,
+  "random_state": 42
+}

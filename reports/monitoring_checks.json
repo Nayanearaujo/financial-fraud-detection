@@ -1,0 +1,6 @@
+{
+  "complete_months": 7,
+  "test_capacity_levels": 4,
+  "assignment_policies": 3,
+  "month_four_excluded": true
+}

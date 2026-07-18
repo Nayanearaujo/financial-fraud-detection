@@ -45,9 +45,16 @@ st.markdown(
     div[data-testid="stCaptionContainer"] p {{color: {MUTED} !important; font-size: 1.02rem;}}
     .scope-row {{display: flex; flex-wrap: wrap; gap: .5rem; margin: .25rem 0 1rem;}}
     .scope-chip {{background: #EAF4F2; border: 1px solid #CFE2DE; border-radius: 999px; color: {TEAL}; font-size: .76rem; font-weight: 650; padding: .35rem .7rem;}}
-    div[data-testid="stTabs"] {{margin-top: .05rem;}}
-    div[data-baseweb="tab-list"] {{gap: 1.25rem; border-bottom: 1px solid #D8E4E1;}}
-    button[data-baseweb="tab"] {{padding: .7rem 0 .62rem;}}
+    .nav-guide {{align-items: baseline; display: flex; flex-wrap: wrap; gap: .45rem .75rem; margin: .85rem 0 .45rem;}}
+    .nav-guide strong {{color: {DARK}; font-size: .9rem; letter-spacing: .02em;}}
+    .nav-guide span {{color: {MUTED}; font-size: .82rem;}}
+    div[data-testid="stTabs"] {{margin-top: 0;}}
+    div[data-baseweb="tab-list"] {{border-bottom: 0; gap: .55rem; overflow-x: auto; padding: .15rem .05rem .5rem; scrollbar-width: thin;}}
+    button[data-baseweb="tab"] {{background: #FFFFFF !important; border: 1px solid #C9DDDA !important; border-radius: 999px !important; color: {TEAL} !important; flex: 0 0 auto; padding: .58rem .95rem !important; transition: background .18s ease, border-color .18s ease, box-shadow .18s ease, transform .18s ease;}}
+    button[data-baseweb="tab"] p {{color: inherit !important; font-size: .88rem !important; font-weight: 700 !important;}}
+    button[data-baseweb="tab"]:hover {{background: #EAF4F2 !important; border-color: {TEAL} !important; transform: translateY(-1px);}}
+    button[data-baseweb="tab"][aria-selected="true"] {{background: {TEAL} !important; border-color: {TEAL} !important; box-shadow: 0 7px 18px rgba(14,98,104,.18); color: #FFFFFF !important;}}
+    div[data-baseweb="tab-highlight"] {{display: none;}}
     div[data-testid="stMetric"] {{background: #FFFFFF; border: 1px solid #D9E5E3; border-radius: 15px; padding: .95rem 1.05rem; min-height: 112px; box-shadow: 0 8px 24px rgba(14,98,104,.055);}}
     div[data-testid="stMetricLabel"] p {{color: {MUTED} !important; font-size: .9rem;}}
     div[data-testid="stMetricValue"] {{color: {DARK} !important;}}
@@ -211,6 +218,11 @@ st.markdown(
       <span class="scope-chip">25 team scenarios</span>
     </div>
     """,
+    unsafe_allow_html=True,
+)
+
+st.markdown(
+    '<div class="nav-guide"><strong>Explore the dashboard</strong><span>Select a view to continue</span></div>',
     unsafe_allow_html=True,
 )
 

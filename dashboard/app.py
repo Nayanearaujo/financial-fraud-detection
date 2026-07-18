@@ -101,39 +101,49 @@ def style_figure(figure: go.Figure, height: int = 500) -> go.Figure:
     return figure
 
 
-def monthly_rate_figure() -> go.Figure:
-    frame = monthly.copy()
-    frame["fraud_rate_percent"] = frame["fraud_rate"] * 100
-    frame.loc[frame["month"].eq(4), "fraud_rate_percent"] = float("nan")
-    figure = px.line(
-        frame,
-        x="month",
-        y="fraud_rate_percent",
-        markers=True,
-        title="Observed fraud rate by complete source month",
-        labels={"month": "Source month", "fraud_rate_percent": "Fraud rate (%)"},
-        color_discrete_sequence=[CORAL],
+def executive_impact_figure(capacity_data: pd.DataFrame, total_fraud: int) -> go.Figure:
+    frame = capacity_data.loc[
+        capacity_data["model"].eq("hist_gradient_boosting")
+    ].sort_values("review_share").copy()
+    frame["Fraud captured"] = frame["fraud_captured"].astype(int)
+    frame["Fraud outside queue"] = total_fraud - frame["Fraud captured"]
+    frame["Capacity"] = frame.apply(
+        lambda row: f"{row.review_share:.0%}<br>{int(row.review_capacity):,} reviewed",
+        axis=1,
     )
-    figure.update_traces(line_width=3, marker_size=9, connectgaps=False)
-    figure.add_vrect(
-        x0=3.65,
-        x1=4.35,
-        fillcolor=CORAL,
-        opacity=0.12,
-        line_width=0,
-        annotation_text="Incomplete month excluded",
-        annotation_position="top left",
-        annotation_font={"color": DARK, "size": 11},
+    frame["Recovery"] = frame["recall_at_capacity"].map(lambda value: f"{value:.0%} captured")
+
+    figure = go.Figure()
+    figure.add_bar(
+        x=frame["Capacity"],
+        y=frame["Fraud captured"],
+        name="Fraud captured",
+        marker_color=CORAL,
+        text=frame["Recovery"],
+        textposition="inside",
+        textfont={"color": DARK, "size": 12},
+        customdata=frame[["review_capacity", "precision_at_capacity"]],
+        hovertemplate=(
+            "<b>%{x}</b><br>%{y:,.0f} fraud cases captured"
+            "<br>Queue precision: %{customdata[1]:.1%}<extra></extra>"
+        ),
+    )
+    figure.add_bar(
+        x=frame["Capacity"],
+        y=frame["Fraud outside queue"],
+        name="Fraud outside queue",
+        marker_color="#DDE7E5",
+        hovertemplate="<b>%{x}</b><br>%{y:,.0f} fraud cases outside queue<extra></extra>",
+    )
+    figure.update_layout(
+        barmode="stack",
+        title="Fraud coverage as review capacity expands",
+        xaxis_title="Share of final-month applications sent to review",
+        yaxis_title="Observed fraud cases",
+        bargap=0.28,
     )
     style_figure(figure, height=465)
-    y_ticks = [0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5]
-    figure.update_xaxes(tickmode="array", tickvals=list(range(8)), ticktext=[str(v) for v in range(8)])
-    figure.update_yaxes(
-        range=[0.72, 1.58],
-        tickmode="array",
-        tickvals=y_ticks,
-        ticktext=[f"{value:.1f}" for value in y_ticks],
-    )
+    figure.update_yaxes(range=[0, total_fraud * 1.08])
     return figure
 
 
@@ -254,7 +264,7 @@ with overview_tab:
 
     chart_column, decision_column = st.columns([2.15, 1])
     with chart_column:
-        st.plotly_chart(monthly_rate_figure(), width="stretch")
+        st.plotly_chart(executive_impact_figure(test_capacity, fraud_total), width="stretch")
     with decision_column:
         st.markdown(
             f"""

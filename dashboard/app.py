@@ -49,12 +49,13 @@ st.markdown(
     .nav-guide strong {{color: {DARK}; font-size: .9rem; letter-spacing: .02em;}}
     .nav-guide span {{color: {MUTED}; font-size: .82rem;}}
     div[data-testid="stTabs"] {{margin-top: 0;}}
-    div[data-baseweb="tab-list"] {{border-bottom: 0; gap: .55rem; overflow-x: auto; padding: .15rem .05rem .5rem; scrollbar-width: thin;}}
-    button[data-baseweb="tab"] {{background: #FFFFFF !important; border: 1px solid #C9DDDA !important; border-radius: 999px !important; color: {TEAL} !important; flex: 0 0 auto; padding: .58rem .95rem !important; transition: background .18s ease, border-color .18s ease, box-shadow .18s ease, transform .18s ease;}}
-    button[data-baseweb="tab"] p {{color: inherit !important; font-size: .88rem !important; font-weight: 700 !important;}}
-    button[data-baseweb="tab"]:hover {{background: #EAF4F2 !important; border-color: {TEAL} !important; transform: translateY(-1px);}}
-    button[data-baseweb="tab"][aria-selected="true"] {{background: {TEAL} !important; border-color: {TEAL} !important; box-shadow: 0 7px 18px rgba(14,98,104,.18); color: #FFFFFF !important;}}
-    div[data-baseweb="tab-highlight"] {{display: none;}}
+    div[data-testid="stTabs"] div[role="tablist"] {{border-bottom: 0 !important; gap: .55rem; overflow-x: auto; padding: .15rem .05rem .5rem; scrollbar-width: thin;}}
+    div[data-testid="stTabs"] button[role="tab"] {{background: #FFFFFF !important; border: 1px solid #C9DDDA !important; border-radius: 999px !important; color: {TEAL} !important; flex: 0 0 auto; padding: .58rem .95rem !important; transition: background .18s ease, border-color .18s ease, box-shadow .18s ease, transform .18s ease;}}
+    div[data-testid="stTabs"] button[role="tab"] p {{color: inherit !important; font-size: .88rem !important; font-weight: 700 !important;}}
+    div[data-testid="stTabs"] button[role="tab"]:hover {{background: #EAF4F2 !important; border-color: {TEAL} !important; transform: translateY(-1px);}}
+    div[data-testid="stTabs"] button[role="tab"][aria-selected="true"] {{background: {TEAL} !important; border-color: {TEAL} !important; box-shadow: 0 7px 18px rgba(14,98,104,.18); color: #FFFFFF !important;}}
+    div[data-testid="stTabs"] button[role="tab"][aria-selected="true"] p {{color: #FFFFFF !important;}}
+    div[data-testid="stTabs"] div[data-baseweb="tab-highlight"] {{display: none !important;}}
     div[data-testid="stMetric"] {{background: #FFFFFF; border: 1px solid #D9E5E3; border-radius: 15px; padding: .95rem 1.05rem; min-height: 112px; box-shadow: 0 8px 24px rgba(14,98,104,.055);}}
     div[data-testid="stMetricLabel"] p {{color: {MUTED} !important; font-size: .9rem;}}
     div[data-testid="stMetricValue"] {{color: {DARK} !important;}}

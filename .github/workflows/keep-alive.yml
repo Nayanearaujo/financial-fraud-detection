@@ -9,10 +9,38 @@ jobs:
   ping:
     runs-on: ubuntu-latest
     steps:
-      - name: Visit the app to keep it awake
-        continue-on-error: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Playwright (headless browser)
         run: |
-          curl -sSL --max-redirs 20 --max-time 30 \
-            -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36" \
-            -o /dev/null -w "HTTP status: %{http_code} | redirects: %{num_redirects}\n" \
-            "https://financial-fraud-alert-review.streamlit.app/"
+          pip install playwright
+          playwright install --with-deps chromium
+
+      - name: Visit the app like a real browser
+        run: |
+          python - <<'PY'
+          from playwright.sync_api import sync_playwright
+
+          url = "https://financial-fraud-alert-review.streamlit.app/"
+
+          with sync_playwright() as p:
+              browser = p.chromium.launch()
+              page = browser.new_page()
+              page.goto(url, timeout=60000, wait_until="networkidle")
+
+              # If the app is asleep, Streamlit shows a wake-up button.
+              # Click it if it appears; if the app is already awake, this
+              # is simply skipped.
+              try:
+                  button = page.get_by_text("Yes, get this app back up!", exact=False)
+                  if button.is_visible(timeout=5000):
+                      button.click()
+                      page.wait_for_timeout(15000)
+              except Exception:
+                  pass
+
+              print("Final page title:", page.title())
+              browser.close()
+          PY
